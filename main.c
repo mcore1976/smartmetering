@@ -14,7 +14,6 @@
  * SIM800L RXD to ATMEGA328 TXD PIN #3,
  * SIM800L TXD to ATMEGA328 RXD PIN #2
  * DHT11/DHT22 sensor pin DATA is connected to ATMEGA328 PB0 PIN #14
- 
  * ATMEGA328 VCC (PIN #7) to SIM800L VCC , DHT22 pin VCC and +4V power socket
  * ATMEGA328 GND (PIN #8 and PIN #22) to SIM800L GND , DHT22 pin GND and 0V of power socket
  * -------------------------------------------------------------------------------------------------------------
