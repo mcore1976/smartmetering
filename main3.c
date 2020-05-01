@@ -331,14 +331,14 @@ uint8_t readsmsphonenumber()
            char1 = response[response_pos];
            response_pos++;
            i++;
-         } while ( (char1 != ':') && (i<150) );
+         } while ( (char1 != ':') && (i < BUFFER_SIZE) );
 
       // wait for first quotation sign - there will be MSISDN number of sender
       do { 
            char1 = response[response_pos];
            response_pos++;
            i++;
-         } while ( (char1 != '\"') && (i<150) );
+         } while ( (char1 != '\"') && (i < BUFFER_SIZE) );
       // if quotation detected start to copy the response - phonenumber 
       do  { 
            char1 = response[response_pos];
@@ -346,7 +346,7 @@ uint8_t readsmsphonenumber()
            phonenumber[phonenumber_pos] = char1; 
            phonenumber_pos++;
            i++;
-         } while ( (char1 != '\"') && (i<150) );    // until end of quotation
+         } while ( (char1 != '\"') && (i < BUFFER_SIZE) );    // until end of quotation
      // put NULL to end the string phonenumber
            phonenumber[phonenumber_pos-1] = NULL; 
            phonenumber_pos=0;
