@@ -20,4 +20,11 @@ Part List :
 - 3 x AA batteries or    
 - Solar Cell 4 V - 5V   and diode 1N4007 and LiIon 3.7V battery ( same as used in mobile phones )
 
+How to compile and upload code to the chip ATTINY 2313 ??
+See this tutorial https://www.youtube.com/watch?v=7klgyNzZ2TI
 
+What do you need :
+1. USBASP programmer
+2. Six  color wires to connect the chip with USBASP Kanda socket
+3. Solderless breadboard on which you put ATTINY / ATMEGA chip and  connect cabling from USBASP 
+4. PC with Ubuntu Linux ( version does not matter)  with following packages installed :  "gcc-avr", "binutils-avr" (or sometimes just "binutils"), "avr-libc", "avrdude"  - the AVR-GCC environment and AVRDUDE flash programmer
