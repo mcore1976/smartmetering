@@ -70,7 +70,7 @@ const char ISSMS[] PROGMEM = {"CMT:"};                         // beginning of m
 
 const char CRLF[] PROGMEM = {"\"\n\r"};
 
-// Flightmode ON OFF - for saving battery in underground garage
+// Flightmode ON OFF - for GSM nework issues
 const char FLIGHTON[] PROGMEM = { "AT+CFUN=4\r\n" };
 const char FLIGHTOFF[] PROGMEM = { "AT+CFUN=1\r\n" };
 
@@ -90,7 +90,7 @@ const char HUMIDITYSMS[] PROGMEM = {" Humidity : "};
 
 
 #define BUFFER_SIZE 40
-// buffers for number of phone, responses from modem, longtitude & latitude data
+// buffers for number of phone, responses from modem
 volatile static uint8_t response[BUFFER_SIZE] = "1234567890123456789012345678901234567890";
 volatile static uint8_t response_pos = 0;
 volatile static uint8_t dhttxt[6] = "00000\x00";
