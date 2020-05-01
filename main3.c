@@ -477,15 +477,14 @@ uint8_t checkregistration()
                    if (is_in_rx_buffer(response, buf) == 1)  initialized2 = 1; 
                    }
                 // if not registered or something wrong turn off RADIO for some time (battery) and turn it on again
-                // this is not to drain battery in underground garage 
                 else
                    {
                    delay_sec(1);
-                   uart_puts_P(FLIGHTON);    // enable airplane mode - turn off radio for 3 minutes
+                   uart_puts_P(FLIGHTON);    // enable airplane mode - turn off radio for 1 minute
                    delay_sec(60);                      
                    uart_puts_P(FLIGHTOFF);   // disable airplane mode - turn on radio and start to search for networks
                    delay_sec(60);                      
-                 // give reasonable time to search for GSM network - 3 minutes is sufficient
+                 // give reasonable time to search for GSM network - at least 1 minute should be sufficient
                    };
                 // end of DO loop
                 } while (initialized2 == 0);
@@ -533,16 +532,13 @@ ISR(INT0_vect)
 
 int main(void) {
 
-  uint8_t initialized;
+  uint8_t initialized;                                                 // just a flag within loops
 
-  uint8_t belowzero;
-  uint8_t temperature_hi, temperature_lo, humidity_hi, humidity_lo;
+  uint8_t belowzero;                                                   // minus sign of temperature
+  uint8_t temperature_hi, temperature_lo, humidity_hi, humidity_lo;    // for temperature and humidity calculation
   uint16_t humidity = 0;
   uint16_t temperature = 0;
   uint16_t temporary;
-
-  //char buf[20];  // buffer to copy string from PROGMEM
-
  
   // initialize 9600 baud 8N1 RS232
   init_uart();
@@ -551,31 +547,30 @@ int main(void) {
   delay_sec(10);
 
           
-       // try to communicate with SIM800L over AT
-        initialized = checkat();
-	delay_sec(2);
+  // try to communicate with SIM800L over AT
+  initialized = checkat();
+  delay_sec(2);
 
-       // Fix UART speed to 9600 bps to disable autosensing
-        uart_puts_P(SET9600); 
-	delay_sec(2);
+  // Fix UART speed to 9600 bps to disable autosensing in SIM800L module
+  uart_puts_P(SET9600); 
+  delay_sec(2);
 
-       // configure RI PIN activity for URC ( unsolicited messages like restart of the modem or battery low)
-        uart_puts_P(CFGRIPIN);
-        delay_sec(2);
+  // configure RI PIN activity for URC ( unsolicited messages like restart of the modem or battery low)
+  uart_puts_P(CFGRIPIN);
+  delay_sec(2);
 
+  // Save settings to SIM800L
+  uart_puts_P(SAVECNF);
+  delay_sec(3);
 
-       // Save settings to SIM800L
-        uart_puts_P(SAVECNF);
-        delay_sec(3);
-
-       // check pin status, registration status
-        checkpin();
-        checkregistration();
-        delay_sec(2);
+  // check pin status, GSM network registration status 
+  checkpin();
+  checkregistration();
+  delay_sec(2);
  
      // neverending LOOP
 
-       while (1) {
+	while (1) {
 
              do { 
 
@@ -595,13 +590,14 @@ int main(void) {
                    uart_puts_P(SLEEPON); 
                    delay_sec(2);
      
-               // enter SLEEP MODE on ATTINY2313 for power saving
+               // enter SLEEP MODE on ATTINY2313 for power saving, INT0 interrupt from RI pin of SIM800L will wake up
                    sleepnow(); // sleep function called here 
 
-               // THERE WAS RI / INT0 INTERRUPT AND SOMETHING WAS SEND OVER SERIAL WE NEED TO GET OFF SLEEPMODE AND READ SERIAL PORT
+               // THERE WAS RI / INT0 INTERRUPT AND SOMETHING WAS SEND OVER SERIAL 
+               // WE NEED TO GET OFF SLEEPMODE AND READ SERIAL PORT
                 if (readline()>0)
                    {
-                   // check if this is an SMS message first
+                   // check if this is an SMS message first or something else (voice call ?)
                     memcpy_P(buf, ISSMS, sizeof(ISSMS));  
                     if  ( is_in_rx_buffer(response, buf) == 1 )  
                        { 
@@ -618,7 +614,8 @@ int main(void) {
                          initialized = 1;
                         } // end of IF
 
-                     // if some other message than RING check if network is avaialble and SIM800L is operational  
+                     // if some other message than SMS, ignore it and 
+                     // check if network is avaialble and SIM800L is fully operational  
                      else 
                       {
                       // disable SLEEPMODE                  
@@ -630,7 +627,7 @@ int main(void) {
                        checkpin();
                        checkregistration();
                        delay_sec(1);
-                    // there was something different than SMS so we need to go back to the beginning 
+                    // there was something different than SMS so we need to go back to the beginning of the loop
                        initialized = 0;
                       }; // end of ELSE
 
@@ -655,8 +652,7 @@ int main(void) {
                uart_puts_P(CRLF);   			   
                delay_sec(1); 
 
-               // Read data from DHT22 sensor
-               // read value from DHT22 sensor, humidity amd temperature are encoded on 16 bits each
+               // read value from DHT22/DHT11 sensor, humidity amd temperature are encoded on 16 bits each
                dht_read(&temperature_hi, &temperature_lo,  &humidity_hi, &humidity_lo);
                // Reading correction - check if most significant bit 15 is 1 from DHT 22 temperature reading
                // if so - temperature is below zero Celsius Degrees
@@ -676,9 +672,7 @@ int main(void) {
                // calculate 16bit Humidity ( 10 times real humidity value)   
                humidity = ( humidity_hi * 256 ) + humidity_lo;
 
-               // send details about sensor status
-
-              // calculate 3 digits for temperature
+	      // calculate 3 digits for temperature and send it 
               uart_puts_P(TEMPERATURESMS); // send info
               dhttxt[0] = belowzero;
               dhttxt[1] = (temperature / 100) + 48;  // calculate ASCII code for digits
@@ -689,7 +683,7 @@ int main(void) {
 
               uart_puts(dhttxt);   // send DHT22 temperature readings
 
-              // calculate 3 digits for humidity
+              // calculate 3 digits for humidity and send it
               uart_puts_P(HUMIDITYSMS); // send info
               dhttxt[0] = 32;  // empty 'space'
               dhttxt[1] = (humidity / 100) + 48;
@@ -704,7 +698,8 @@ int main(void) {
               delay_sec(1); 
               send_uart(26);   // ctrl Z to end SMS
               initialized = 0;
-          } /// end of commands when GPRS is working
+		   
+          } /// end of SMS response procedure
 
        
         delay_sec(5);
