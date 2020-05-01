@@ -1,8 +1,9 @@
 /* ---------------------------------------------------------------------------
  * IOT device based on ATTINY2313 / ATTINY2313A + SIM800L + DHT22
  * will send temperature and humidity reading over SMS message in response to SMS
+ *
  * by Adam Loboda - adam.loboda@wp.pl
- * baudrate 9600
+ *
  * please configure SIM800L to fixed 9600 first by AT+IPR=9600 command 
  * to ensure stability ans save config via AT&W command
  * because of sleepmode use on ATTINY2313 : INT0 pin (#6) of ATTINY2313/4313 
