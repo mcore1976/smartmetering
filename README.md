@@ -27,22 +27,38 @@ Part List :
 connections to be made  : 
 
 a) ATMEGA328P option
+
  ATMEGA328P : INT0 pin (#4) of ATMEGA328P must be connected to RI/RING ping on SIM800L module
+ 
  SIM800L RXD to ATMEGA328 TXD PIN #3,
+ 
  SIM800L TXD to ATMEGA328 RXD PIN #2
+ 
  DHT11/DHT22 sensor pin DATA is connected to ATMEGA328 PB0 PIN #14
+ 
  ATMEGA328 VCC (PIN #7) to SIM800L VCC , DHT22 pin VCC and +4V power socket
+ 
  ATMEGA328 GND (PIN #8 and PIN #22) to SIM800L GND , DHT22 pin GND and 0V of power socket
+ 
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
 
+
 b) ATTINY2313 option
+
  ATTINY2313 : INT0 pin (#6) must be connected to RI/RING ping on SIM800L module
+ 
  SIM800L RXD to ATTINY2313 TXD PIN #3,
+ 
  SIM800L TXD to ATTINY2313 RXD PIN #2
+ 
  DHT11/DHT22 sensor pin DATA is connected to ATTINY2313 PB0 PIN #12
+ 
  ATTINY2313 VCC (PIN #20) to SIM800L VCC , DHT22 pin VCC and +4V power socket
+ 
  ATTINY2313 GND (PIN #10) to SIM800L GND , DHT22 pin GND and 0V of power socket
+ 
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
+ 
 
 ---------------------------------
 
