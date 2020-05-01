@@ -5,6 +5,18 @@ This is very simple example how to build IoT device that sends remote reading of
 When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 reads digital data from sensor DHT22 and sends response SMS to sender mobile.
 
 The ATTINY 2313 and SIM800L are both put into sleep mode when there is no incoming messages so the power consumption is below 4mA.
+SIM800L should be first configured to work on serial port with speed 9600bps. 
 
 The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor.
+
+Part List :
+
+- ATTINY 2313 
+- SIM800L dev board
+- DHT22 sensor ( for outdoor reading ) or DHT11 sensor ( for indoor temperatures )
+- 1000uF/10V capacitor ( or higher ) 
+- 100nF capacitor
+- 3 x AA batteries or    
+- Solar Cell 4 V - 5V   and diode 1N4007 and LiIon 3.7V battery ( same as used in mobile phones )
+
 
