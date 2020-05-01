@@ -26,6 +26,7 @@ Part List :
 
 connections to be made  : 
 
+
 a) ATMEGA328P option
 
  ATMEGA328P : INT0 pin (#4) of ATMEGA328P must be connected to RI/RING ping on SIM800L module
@@ -41,6 +42,7 @@ a) ATMEGA328P option
  ATMEGA328 GND (PIN #8 and PIN #22) to SIM800L GND , DHT22 pin GND and 0V of power socket
  
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
+
 
 
 b) ATTINY2313 option
