@@ -10,6 +10,8 @@ SIM800L should be first configured to work on serial port with speed 9600bps.
 
 The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor.
 
+You can see how this device works here : https://youtu.be/N060LW39fkQ
+
 ---------------------------------
 
 Part List :
