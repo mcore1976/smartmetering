@@ -31,10 +31,12 @@ You can see how this device works here : https://youtu.be/N060LW39fkQ
 Part List :
 
 - ATTINY 2313  or ATMEGA 328P chip
+- XTAL 8MHz - recommended for communication stability 
 - SIM800L dev board
 - DHT22 sensor ( for outdoor reading ) or DHT11 sensor ( for indoor temperatures )
 - 1000uF/10V capacitor ( or higher ) 
 - 100nF capacitor
+- 2 x 22pF caapacitors when using XTAL
 - 3 x AA batteries or    
 - Solar Cell 4 V - 5V   and diode 1N4007 and LiIon 3.7V battery ( same as used in mobile phones )
 
