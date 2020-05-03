@@ -57,18 +57,17 @@ const char ISREG2[] PROGMEM = { "+CREG: 0,5" };  // registered in ROAMING NETWOR
 const char SHOW_REGISTRATION[] PROGMEM = {"AT+CREG?\n\r"};
 const char PIN_IS_READY[] PROGMEM = {"+CPIN: READY"};
 const char PIN_MUST_BE_ENTERED[] PROGMEM = {"+CPIN: SIM PIN"};
-
 const char SHOW_PIN[] PROGMEM = {"AT+CPIN?\n\r"};
 const char ECHO_OFF[] PROGMEM = {"ATE0\n\r"};
 const char ENTER_PIN[] PROGMEM = {"AT+CPIN=\"1111\"\n\r"};
 
-// definition of APN used for GPRS communication
-// please put correct APN, USERNAME and PASSWORD here appropriate
-// for your Mobile Network provider 
+// Definition of APN used for GPRS communication
+// Please put correct APN, USERNAME and PASSWORD here appropriate for your Mobile Network provider.
+// If no password and username delete the text between < and >
 const char SAPBR1[] PROGMEM = {"AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"\r\n"};  
-const char SAPBR2[] PROGMEM = {"AT+SAPBR=3,1,\"APN\",\"internet\"\r\n"};    // Put your mobile operator APN name here
-const char SAPBR3[] PROGMEM = {"AT+SAPBR=3,1,\"USER\",\"\"\r\n"};           // Put your mobile operator APN username here if any
-const char SAPBR4[] PROGMEM = {"AT+SAPBR=3,1,\"PWD\",\"\"\r\n"};            // Put your mobile operator APN password here if any
+const char SAPBR2[] PROGMEM = {"AT+SAPBR=3,1,\"APN\",\"internet\"\r\n"};             // Put your mobile operator APN name here
+const char SAPBR3[] PROGMEM = {"AT+SAPBR=3,1,\"USER\",\"<myusernamehere>\"\r\n"};    // Put your mobile operator APN USERNAME here if any
+const char SAPBR4[] PROGMEM = {"AT+SAPBR=3,1,\"PWD\",\"<mypasswordhere>\"\r\n"};     // Put your mobile operator APN PASSWORD here if any
 // PDP context commands
 const char SAPBROPEN[] PROGMEM = {"AT+SAPBR=1,1\r\n"};      // open IP bearer
 const char SAPBRQUERY[] PROGMEM = {"AT+SAPBR=2,1\r\n"};     // query IP bearer
@@ -79,7 +78,7 @@ const char SAPBRSUCC[] PROGMEM = {"+SAPBR: 1,1"};           // bearer was succes
 const char FLIGHTON[] PROGMEM = { "AT+CFUN=4\r\n" };
 const char FLIGHTOFF[] PROGMEM = { "AT+CFUN=1\r\n" };
 
-// Sleepmode ON OFF
+// Sleepmode ON OFF for SIM800L
 const char SLEEPON[] PROGMEM = { "AT+CSCLK=2\r\n" };
 const char SLEEPOFF[] PROGMEM = { "AT+CSCLK=0\r\n" };
 
@@ -89,7 +88,7 @@ const char SET9600[] PROGMEM = { "AT+IPR=9600\r\n" };
 // Save settings to SIM800L
 const char SAVECNF[] PROGMEM = { "AT&W\r\n" };
 
-// HTTP communication with Thingspeak 
+// HTTP communication with Thingspeak platform, please PUT YOUR API KEY to make it work 
 const char HTTPAPIKEY[] PROGMEM = { "XXXXXXXXXXXXXXXX" };   // Put your THINGSPEAK API KEY HERE !!!
 const char HTTPINIT[] PROGMEM = { "AT+HTTPINIT\r\n" };
 const char HTTPPARA[] PROGMEM = { "AT+HTTPPARA=\"CID\",1\r\n" };
@@ -516,6 +515,10 @@ int main(void) {
                 // clear the loop flag 
                  initialized = 0;
 
+	       // check network availability just in case...
+                 checkregistration();
+                 delay_sec(2);
+
                  do { 
                      //and close the bearer first maybe there was an error or something
                       uart_puts_P(SAPBRCLOSE);
@@ -617,7 +620,6 @@ int main(void) {
               uart_puts_P(AT);
               delay_sec(1);
               uart_puts_P(SLEEPOFF);
-              delay_sec(3);
 
         // end of neverending loop
         };
