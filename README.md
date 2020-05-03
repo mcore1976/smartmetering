@@ -1,17 +1,26 @@
 # smartmetering
-Smart metering of temperature and humidity using GSM network and SMS text messages
+Smart metering of temperature and humidity using GSM/GPRS network and SMS text messages or THINGSPEAK platform.
 
-This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network ( module SIM800L is used for communication ). 
+This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK platform with GPRS ( module SIM800L is used for communication ). 
+
+1. Mobile phone as a target and text message option - files main.c , main3.c 
+
 When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 / ATMEGA 328P reads digital data from sensor DHT22 and sends response SMS to sender mobile.
-
 The ATTINY 2313 / ATMEGA 328P and SIM800L are both put into sleep mode when there is no incoming messages so the power consumption is below 4mA.
 ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup signal. Pin RI/RING goes low when there is incoming text message on the SIM. ATTINY/ATMEGA wakes up and wakes up SIM800L module. That allows to conserve energy and ensures longest lifetime.
+
+2. THINGSPEAK platform as a target - files main3b.c 
+
+The file "main3b.c" and "compileattinyb" are Thongspeak version. 
+MCU will inititate GPRS connection using SIM800L module, then will contact Thingspeak server and make HTTP PUT to store your measurements from DHT22 sensor. How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
+To use "main3b.c" file you have to create Thingspeak account and get API key first.
+API Key must be put into "main3b.c" code as well as APN settings for GPRS access from your SIM card  ( it is marked in remarks in the code).
+
+
+3. Other considerations : 
+
 SIM800L should be first configured to work on serial port with speed 9600bps. 
-
 The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor.
-
-The file "main3b.c" and "compileattinyb" are Thongspeak version. The code from these files will use GPRS connection to contact Thingspeak server and post you measurements from DHT22 sensor. How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
-To use "main3b.c" file you have to create Thingspeak account and get API key. API Key must be put into "main3b.c" code as well as APN settings for GPRS access from your SIM card 
 
 
 
