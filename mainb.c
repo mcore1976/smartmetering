@@ -613,7 +613,7 @@ int main(void) {
               uart_puts_P(HTTPTSPK5);  // put CRLF at the end
               delay_sec(2); 
               uart_puts_P(HTTPACTION);  // send prepared HTTP PUT
-              delay_sec(2); 
+              delay_sec(10);             // several seconds needed to setup TCP succesfully 
  
               //and close the bearer 
               uart_puts_P(SAPBRCLOSE);
