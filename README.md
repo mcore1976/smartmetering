@@ -10,6 +10,11 @@ SIM800L should be first configured to work on serial port with speed 9600bps.
 
 The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor.
 
+The file "main3b.c" and "compileattinyb" are Thongspeak version. The code from these files will use GPRS connection to contact Thingspeak server and post you measurements from DHT22 sensor. How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
+To use "main3b.c" file you have to create Thingspeak account and get API key. API Key must be put into "main3b.c" code as well as APN settings for GPRS access from your SIM card 
+
+
+
 You can see how this device works here : https://youtu.be/N060LW39fkQ
 
 ---------------------------------
