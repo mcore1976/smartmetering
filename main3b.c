@@ -606,7 +606,7 @@ int main(void) {
               uart_puts_P(HTTPTSPK5);  // put CRLF at the end
               delay_sec(2); 
               uart_puts_P(HTTPACTION);  // send prepared HTTP PUT
-              delay_sec(2); 
+              delay_sec(5);             // several seconds needed in case of soem TCP negotiation over GPRS
  
               //and close the bearer 
               uart_puts_P(SAPBRCLOSE);
