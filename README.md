@@ -1,7 +1,7 @@
 # smartmetering
-Smart metering of temperature and humidity using GSM/GPRS network and SMS text messages or THINGSPEAK platform.
+Smart metering of temperature and humidity using GSM/GPRS network and SMS text messages or post them to channel on THINGSPEAK platform.
 
-This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK platform with GPRS ( module SIM800L is used for communication ). 
+This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform with GPRS ( module SIM800L is used for communication ). 
 
 1. Mobile phone as a target and text message option - files main.c + compileatmega (for ATMEGA328P) , main3.c + compileattiny (for ATTINY2313)
 
