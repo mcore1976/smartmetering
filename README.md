@@ -1,7 +1,7 @@
 # smartmetering
 Smart metering of temperature and humidity using GSM/GPRS network and SMS text messages or post them to channel on THINGSPEAK platform.
 
-This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform with GPRS ( module SIM800L is used for communication ). 
+This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform via GPRS connection ( module SIM800L is used for communication ). 
 
 1. Mobile phone as a target and text message option - files main.c + compileatmega (for ATMEGA328P) , main3.c + compileattiny (for ATTINY2313)
 
@@ -12,7 +12,8 @@ ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup
 2. THINGSPEAK platform as a target - files mainb + compileatmegab (for ATMEGA328P), main3b.c + compileattinyb (for ATTINY2313)
 
 The file "main3b.c"/"compileattinyb" and "mainb.c"/"compileattiny" are Thingspeak version. 
-In this option MCU will inititate GPRS connection using SIM800L module every N minutes, then will contact Thingspeak server and make HTTP PUT to store your measurements from DHT22 sensor. How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
+In this option MCU will inititate GPRS connection for 30 seconds every N minutes using SIM800L module, then it will contact Thingspeak server and send HTTP POST towards Thingspeak servers to store your measurements from DHT22 sensor. 
+How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
 To use these source file you have to create Thingspeak account and get API key first, then an update of source file is needed.
 API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN settings for GPRS access from your SIM card  ( it is marked in remarks in the code).
 
@@ -21,6 +22,8 @@ API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN se
 
 SIM800L should be first configured to work on serial port with speed 9600bps. 
 The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and good power source.
+Please use XTAL 8MHz + 2 x 22pF capacitors to ensure stabilisty of serial connection between MCU ans SIM800L. To reprogram chip to use quartz change L-FUSE value to "7F" in compileattinyX / compileatmegaX batch script in AVRDUDE command section. 
+Internal RC clock generator may be very unstable and prevent device from working.
 
 
 
