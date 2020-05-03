@@ -20,7 +20,7 @@ API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN se
 3. Other considerations : 
 
 SIM800L should be first configured to work on serial port with speed 9600bps. 
-The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor.
+The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and good power source.
 
 
 
