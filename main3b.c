@@ -53,7 +53,7 @@
 const char AT[] PROGMEM = { "AT\n\r" }; // wakeup from sleep mode
 const char ISOK[] PROGMEM = { "OK" };
 const char ISREG1[] PROGMEM = { "+CREG: 0,1" };  // registered in HPLMN
-const char ISREG2[] PROGMEM = { "+CREG: 0,5" };  // registered in ROAMING NETWORK
+// const char ISREG2[] PROGMEM = { "+CREG: 0,5" };  // registered in ROAMING NETWORK
 const char SHOW_REGISTRATION[] PROGMEM = {"AT+CREG?\n\r"};
 const char PIN_IS_READY[] PROGMEM = {"+CPIN: READY"};
 const char PIN_MUST_BE_ENTERED[] PROGMEM = {"+CPIN: SIM PIN"};
@@ -435,8 +435,8 @@ uint8_t checkregistration()
                    {			   
                     memcpy_P(buf, ISREG1, sizeof(ISREG1));
                    if (is_in_rx_buffer(response, buf) == 1)  initialized2 = 1; 
-                    memcpy_P(buf, ISREG2, sizeof(ISREG2));
-                   if (is_in_rx_buffer(response, buf) == 1)  initialized2 = 1; 
+                //  memcpy_P(buf, ISREG2, sizeof(ISREG2));
+                //  if (is_in_rx_buffer(response, buf) == 1)  initialized2 = 1; 
                    }
                 // if not registered or something wrong turn off RADIO for some time (battery) and turn it on again
                 // this is not to drain battery in underground garage 
@@ -614,8 +614,8 @@ int main(void) {
               // go to the beginning and enter sleepmode on SIM800L and ATTINY2313 again for power saving
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
                uart_puts_P(SLEEPON); 
-              // sleep N seconds before next measurement and GPRS connection. Here about 5 minutes in total 
-              delay_sec(240);
+              // sleep 'N' minutes  before next measurement and GPRS connection.  
+               for (attempt; attempt<60; attempt++)  delay_sec(60);
               // disable SLEEPMODE , hangup a call and proceed with sending SMS                  
               uart_puts_P(AT);
               delay_sec(1);
