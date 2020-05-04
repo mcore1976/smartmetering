@@ -1,0 +1,9 @@
+rm *.elf
+rm *.o
+rm *.hex
+avr-gcc -mmcu=attiny2313 -std=gnu99 -Wall -Os -o main3c.elf main3c.c -w
+avr-objcopy -j .text -j .data -O ihex main3c.elf main3c.hex
+avr-size --mcu=attiny2313 --format=avr main3c.elf
+# external 8MHz quartz with int div 8, CKSEL 1111, SUT 11 
+sudo avrdude -c usbasp -p t2313 -U lfuse:w:0x7f:m  -U flash:w:"main3c.hex":a
+
