@@ -621,8 +621,8 @@ int main(void) {
               // go to the beginning and enter sleepmode on SIM800L  again for power saving
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
                uart_puts_P(SLEEPON); 
-              // sleep N seconds before next measurement and GPRS connection. Here about 5 minutes in total 
-              delay_sec(240);
+              // sleep 'N' minutes  before next measurement and GPRS connection.  
+               for (attempt; attempt<60; attempt++)  delay_sec(60);
               // disable SLEEPMODE , hangup a call and proceed with sending SMS                  
               uart_puts_P(AT);
               delay_sec(1);
