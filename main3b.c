@@ -490,6 +490,10 @@ int main(void) {
   uart_puts_P(SET9600); 
   delay_sec(2);
 
+  // Disable LED blinking on  SIM800L
+  uart_puts_P(DISABLELED);
+  delay_sec(2);
+
    // Save settings to SIM800L
   uart_puts_P(SAVECNF);
   delay_sec(3);
