@@ -6,9 +6,7 @@
  * baudrate for SIM800L communication is 9600 bps
  * please configure SIM800L to fixed 9600 first by AT+IPR=9600 command 
  * to ensure stability ans save config via AT&W command
- * because of sleepmode use on ATTINY2313 : INT0 pin (#6) of ATTINY2313/4313 
- * must be connected to RI/RING ping on SIM800L module
- * RING low voltage state initiates interrupt INT0 and wakes up ATTINY 
+ * between measurement the radio is switched off to conserve power 
  * ---------------------------------------------------------------------------
  */
 
@@ -87,9 +85,6 @@ const char SET9600[] PROGMEM = { "AT+IPR=9600\r\n" };
 
 // Save settings to SIM800L
 const char SAVECNF[] PROGMEM = { "AT&W\r\n" };
-
-// Disable SIM800L LED for further reduction of power consumption
-const char DISABLELED[] PROGMEM = { "AT+CNETLIGHT=0\r\n" };
 
 // HTTP communication with Thingspeak platform, please PUT YOUR API KEY to make it work 
 const char HTTPAPIKEY[] PROGMEM = { "XXXXXXXXXXXXXXXX" };   // Put your THINGSPEAK API KEY HERE !!!
@@ -490,28 +485,12 @@ int main(void) {
   uart_puts_P(SET9600); 
   delay_sec(2);
 
-  // Disable LED blinking on  SIM800L
-  uart_puts_P(DISABLELED);
-  delay_sec(2);
 
    // Save settings to SIM800L
   uart_puts_P(SAVECNF);
   delay_sec(3);
 
-  // check pin status, registration status and provision APN settings
-  checkpin();
-  checkregistration();
-  // connection to GPRS for AGPS basestation data - provision APN and username
-  delay_sec(1);
-  uart_puts_P(SAPBR1);
-  delay_sec(1);
-  uart_puts_P(SAPBR2);
-  // only if username password in APN is needed
-  delay_sec(1);
-  uart_puts_P(SAPBR3);
-  delay_sec(1);
-  uart_puts_P(SAPBR4);
-  delay_sec(10);   
+  
 
   // neverending LOOP
 
@@ -522,10 +501,25 @@ int main(void) {
                 // clear the loop flag 
                  initialized = 0;
 
-	       // check network availability just in case...
-                 checkregistration();
+                // check pin status, registration status and provision APN settings
+                 checkpin();
                  delay_sec(2);
-
+                // disable airplane mode - turn on radio and start to search for networks 
+                 uart_puts_P(FLIGHTOFF);   
+                 delay_sec(60);                      
+                 checkregistration();
+                // connection to GPRS for AGPS basestation data - provision APN and username
+                 delay_sec(1);
+                 uart_puts_P(SAPBR1);
+                 delay_sec(1);
+                 uart_puts_P(SAPBR2);
+                // only if username password in APN is needed
+                 delay_sec(1);
+                 uart_puts_P(SAPBR3);
+                 delay_sec(1);
+                 uart_puts_P(SAPBR4);
+                 delay_sec(1);   
+  
                  do { 
                      //and close the bearer first maybe there was an error or something
                       uart_puts_P(SAPBRCLOSE);
@@ -613,17 +607,19 @@ int main(void) {
               uart_puts_P(HTTPTSPK5);  // put CRLF at the end
               delay_sec(2); 
               uart_puts_P(HTTPACTION);  // send prepared HTTP PUT
-              delay_sec(10);            // several seconds needed in case of soem TCP negotiation over GPRS
+              delay_sec(10);            // more seconds needed for stable TCP connection
  
               //and close the bearer 
               uart_puts_P(SAPBRCLOSE);
               delay_sec(5);
-              // go to the beginning and enter sleepmode on SIM800L and ATTINY2313 again for power saving
+              // disable radio before SIM800L goes to sleep 
+              uart_puts_P(FLIGHTON);   
+              delay_sec(2);
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
                uart_puts_P(SLEEPON); 
               // sleep 'N' minutes  before next measurement and GPRS connection.  
-               for (attempt=0; attempt<120; attempt++)  delay_sec(60);
-              // disable SLEEPMODE , hangup a call and proceed with sending SMS                  
+               for (attempt=1; attempt<120; attempt++)  delay_sec(60);
+              // disable SLEEPMODE , turn on radio and start whole procedure again...                
               uart_puts_P(AT);
               delay_sec(1);
               uart_puts_P(SLEEPOFF);
@@ -634,4 +630,3 @@ int main(void) {
  
     // end of MAIN code 
 }
-
