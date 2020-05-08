@@ -8,6 +8,7 @@
  * to ensure stability ans save config via AT&W command
  * between measurement the SIM800L radio is switched off to conserve power 
  * and SIM800L is put into SLEEP MODE
+ * Please put correct APN name & username & passwd , and PIN value for SIM 
  * ---------------------------------------------------------------------------
  */
 
