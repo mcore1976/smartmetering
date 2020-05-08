@@ -1,12 +1,13 @@
 /* ---------------------------------------------------------------------------
  * IOT device based on ATTINY2313 / ATTINY2313A + SIM800L + DHT22
  * will send temperature and humidity reading over GPRS to thingspeak platform
- * readings every N minutes configurable
+ * readings every N minutes configurable (here 120 minutes)
  * by Adam Loboda - adam.loboda@wp.pl
  * baudrate for SIM800L communication is 9600 bps
  * please configure SIM800L to fixed 9600 first by AT+IPR=9600 command 
  * to ensure stability ans save config via AT&W command
- * between measurement the radio is switched off to conserve power 
+ * between measurement the SIM800L radio is switched off to conserve power 
+ * and SIM800L is put into SLEEP MODE
  * ---------------------------------------------------------------------------
  */
 
