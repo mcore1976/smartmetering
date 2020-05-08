@@ -494,6 +494,10 @@ int main(void) {
    // Fix UART speed to 9600 bps to disable autosensing
   uart_puts_P(SET9600); 
   delay_sec(2);
+	
+  // Disable LED blinking on  SIM800L
+  uart_puts_P(DISABLELED);
+  delay_sec(2);
 
    // Save settings to SIM800L
   uart_puts_P(SAVECNF);
