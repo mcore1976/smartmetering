@@ -86,6 +86,9 @@ const char SET9600[] PROGMEM = { "AT+IPR=9600\r\n" };
 // Save settings to SIM800L
 const char SAVECNF[] PROGMEM = { "AT&W\r\n" };
 
+// Disable SIM800L LED for further reduction of power consumption
+const char DISABLELED[] PROGMEM = { "AT+CNETLIGHT=0\r\n" };
+
 // HTTP communication with Thingspeak platform, please PUT YOUR API KEY to make it work 
 const char HTTPAPIKEY[] PROGMEM = { "XXXXXXXXXXXXXXXX" };   // Put your THINGSPEAK API KEY HERE !!!
 const char HTTPINIT[] PROGMEM = { "AT+HTTPINIT\r\n" };
@@ -622,7 +625,7 @@ int main(void) {
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
                uart_puts_P(SLEEPON); 
               // sleep 'N' minutes  before next measurement and GPRS connection.  
-               for (attempt; attempt<60; attempt++)  delay_sec(60);
+               for (attempt=0; attempt<120; attempt++)  delay_sec(60);
               // disable SLEEPMODE , hangup a call and proceed with sending SMS                  
               uart_puts_P(AT);
               delay_sec(1);
