@@ -1,15 +1,24 @@
 # smartmetering
-Smart metering of temperature and humidity using GSM/GPRS network and SMS text messages.
+Smart metering of temperature and humidity using GSM/GPRS network or SMS text messages.
 
 This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform via GPRS connection ( module SIM800L is used for communication ). 
 
+-----------------------------------------------------------------------------------------------------------------------------
+
 1. Mobile phone as a target and text message option - files main.c + compileatmega (for ATMEGA328P) , main3.c + compileattiny (for ATTINY2313)
+
+The video showig this mode is here : https://youtu.be/N060LW39fkQ
+
 
 When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 / ATMEGA 328P reads digital data from sensor DHT22 and sends response SMS to sender mobile.
 The ATTINY 2313 / ATMEGA 328P and SIM800L are both put into sleep mode when there is no incoming messages so the power consumption is below 4mA.
 ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup signal. Pin RI/RING goes low when there is incoming text message on the SIM. ATTINY/ATMEGA wakes up and wakes up SIM800L module. That allows to conserve energy and ensures longest lifetime.
 
+--------------------------------------------------------------------------------------------------------------------------------
+
 2. THINGSPEAK platform as a target - files mainb + compileatmegab (for ATMEGA328P), main3b.c + compileattinyb (for ATTINY2313)
+
+The video showing mode is working : https://www.youtube.com/watch?v=i4JgbwCktYQ
 
 The file "main3b.c"/"compileattinyb" and "mainb.c"/"compileattiny" are Thingspeak version. 
 In this option MCU will inititate GPRS connection for 30 seconds every N minutes (here in the code N =  120 minutes) using SIM800L module, then it will contact Thingspeak server and send HTTP POST towards Thingspeak servers to store your measurements from DHT22 sensor.  Between DHT22 measurements the SIM800L has radio switched off and it is put into SLEEP MODE to conserve power.
@@ -17,6 +26,7 @@ How it works - details are here : https://www.teachmemicro.com/send-data-sim800-
 To use these source file you have to create Thingspeak account and get API key first, then an update of source file is needed.
 API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN settings for GPRS access from your SIM card  ( it is marked in remarks in the code).
 
+--------------------------------------------------------------------------------------------------------------------
 
 3. Other considerations : 
 
@@ -27,7 +37,6 @@ Internal RC clock generator may be very unstable and prevent device from working
 
 
 
-You can see how this device works here : https://youtu.be/N060LW39fkQ
 
 ---------------------------------
 
