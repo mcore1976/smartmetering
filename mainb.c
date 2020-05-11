@@ -514,7 +514,7 @@ int main(void) {
                  delay_sec(2);
                 // disable airplane mode - turn on radio and start to search for networks 
                  uart_puts_P(FLIGHTOFF);   
-                 delay_sec(60);                      
+                 delay_sec(70);                      
                  checkregistration();
                 // connection to GPRS for AGPS basestation data - provision APN and username
                  delay_sec(1);
@@ -626,7 +626,7 @@ int main(void) {
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
                uart_puts_P(SLEEPON); 
               // sleep 'N' minutes  before next measurement and GPRS connection.  
-               for (attempt=1; attempt<120; attempt++)  delay_sec(60);
+               for (attempt=2; attempt<120; attempt++)  delay_sec(60);
               // disable SLEEPMODE , turn on radio and start whole procedure again...                
               uart_puts_P(AT);
               delay_sec(1);
