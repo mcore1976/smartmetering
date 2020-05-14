@@ -6,8 +6,9 @@
  * baudrate for SIM800L communication is 9600 bps
  * please configure SIM800L to fixed 9600 first by AT+IPR=9600 command 
  * to ensure stability ans save config via AT&W command
- * in this version radio is completely switched off for 2 hours before 
- * next measurement to conserve power even more
+ * in this version radio is not switched off, only sleep mode on SIM800L 
+ * for 2 hours before next measurement cycle
+ * also LED on SIM800L is switched off
  * ---------------------------------------------------------------------------
  */
 
@@ -65,9 +66,9 @@ const char ENTER_PIN[] PROGMEM = {"AT+CPIN=\"1111\"\n\r"};
 // please put correct APN, USERNAME and PASSWORD here appropriate
 // for your Mobile Network provider 
 const char SAPBR1[] PROGMEM = {"AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"\r\n"};  
-const char SAPBR2[] PROGMEM = {"AT+SAPBR=3,1,\"APN\",\"internet\"\r\n"};    // Put your mobile operator APN name here
-const char SAPBR3[] PROGMEM = {"AT+SAPBR=3,1,\"USER\",\"\"\r\n"};           // Put your mobile operator APN username here if any
-const char SAPBR4[] PROGMEM = {"AT+SAPBR=3,1,\"PWD\",\"\"\r\n"};            // Put your mobile operator APN password here if any
+const char SAPBR2[] PROGMEM = {"AT+SAPBR=3,1,\"APN\",\"internet\"\r\n"};      // Put your mobile operator APN name here
+const char SAPBR3[] PROGMEM = {"AT+SAPBR=3,1,\"USER\",\"<Username>\"\r\n"};   // Put your mobile operator APN username here if any
+const char SAPBR4[] PROGMEM = {"AT+SAPBR=3,1,\"PWD\",\"<Password>\"\r\n"};    // Put your mobile operator APN password here if any
 // PDP context commands
 const char SAPBROPEN[] PROGMEM = {"AT+SAPBR=1,1\r\n"};      // open IP bearer
 const char SAPBRQUERY[] PROGMEM = {"AT+SAPBR=2,1\r\n"};     // query IP bearer
@@ -92,7 +93,7 @@ const char SAVECNF[] PROGMEM = { "AT&W\r\n" };
 const char DISABLELED[] PROGMEM = { "AT+CNETLIGHT=0\r\n" };
 
 // HTTP communication with Thingspeak 
-const char HTTPAPIKEY[] PROGMEM = { "CVYS6I1E0K5HMCOT" };   // Put your THINGSPEAK API KEY HERE !!!
+const char HTTPAPIKEY[] PROGMEM = { "XXXXXXXXXXXXXXXXXX" };   // Put your THINGSPEAK API KEY HERE !!!
 const char HTTPINIT[] PROGMEM = { "AT+HTTPINIT\r\n" };
 const char HTTPPARA[] PROGMEM = { "AT+HTTPPARA=\"CID\",1\r\n" };
 const char HTTPTSPK1[] PROGMEM = { "AT+HTTPPARA=\"URL\",\"http://" };
