@@ -106,7 +106,7 @@ b) ATTINY2313 option
  
 ---------------------------------
 
-How to compile and upload code to the chip ATTINY 2313 ??
+How to compile and upload code to the chip ATTINY 2313 or ATMEGA 328P ??
 See this tutorial https://www.youtube.com/watch?v=7klgyNzZ2TI
 
 files : 
@@ -114,6 +114,8 @@ files :
 - compileatmega and main.c   are used for chip ATMEGA328P
 - compileattinyb and main3b.c  are used for chip ATTINY2313
 - compileatmegab and mainb.c   are used for chip ATMEGA328P
+- compileattinyc and main3c.c  are used for chip ATTINY2313
+- compileatmegac and mainc.c   are used for chip ATMEGA328P
 
 
 What do you need :
