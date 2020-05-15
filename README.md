@@ -34,8 +34,9 @@ API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN se
 3. Other considerations : 
 
 SIM800L should be first configured to work on serial port with speed 9600bps. 
-The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and good power source.
-Please use XTAL 8MHz + 2 x 22pF capacitors to ensure stabilisty of serial connection between MCU ans SIM800L. To reprogram chip to use quartz change L-FUSE value to "7F" in compileattinyX / compileatmegaX batch script in AVRDUDE command section. 
+The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. Currently I am using 4xAA NiMH battery pack ( 1.2V x 4 cells ) with voltage drop down diode 1N4007 in serial (around ~0,6V voltage drop so result is 4.2V for powering SIM800L and MCU) and this gives very good results in powering this IoT device. 
+SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and good power source.
+Please use XTAL 8MHz + 2 x 22pF capacitors to ensure stability of serial connection between MCU ans SIM800L. To reprogram chip to use quartz change L-FUSE value to "7F" in compileattinyX / compileatmegaX batch script in AVRDUDE command section. 
 Internal RC clock generator may be very unstable and prevent device from working.
 
 
