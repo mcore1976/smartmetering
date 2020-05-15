@@ -7,7 +7,7 @@
  * please configure SIM800L to fixed 9600 first by AT+IPR=9600 command 
  * to ensure stability ans save config via AT&W command
  * in this version radio is not switched off, only sleep mode on SIM800L 
- * for 2 hours before next measurement cycle
+ * is used do conserve battery for 2 hours before next measurement cycle
  * also LED on SIM800L is switched off
  * ---------------------------------------------------------------------------
  */
@@ -628,7 +628,7 @@ int main(void) {
               //delay_sec(2);
               // enter SLEEP MODE of SIM800L before nex measurement to conserve energy
               uart_puts_P(SLEEPON); 
-              delay_sec(11);
+              delay_sec(9);     // just to sync up 2 hours delay 
               // sleep 'N' minutes  before next measurement and GPRS connection.  
                for (attempt=1; attempt<120; attempt++)  delay_sec(60);
               // disable SLEEPMODE , turn on radio and start whole procedure again...                
