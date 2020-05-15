@@ -20,8 +20,9 @@ ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup
 
 The video showing mode is working : https://www.youtube.com/watch?v=i4JgbwCktYQ
 
-The file "main3b.c"/"compileattinyb" and "mainb.c"/"compileattiny" are Thingspeak version. 
-In this option MCU will inititate GPRS connection for 30 seconds every N minutes (here in the code N =  120 minutes) using SIM800L module, then it will contact Thingspeak server and send HTTP POST towards Thingspeak servers to store your measurements from DHT22 sensor.  Between DHT22 measurements the SIM800L has radio switched off and it is put into SLEEP MODE to conserve power.
+The file "main3b.c"/"compileattinyb" ( or "main3b.c"/"compileattinyb" with no-radio-off option)  and "mainb.c"/"compileatmegab"  ( or "mainc.c"/"compileatmegac" with no-radio-off-option )  are Thingspeak version. 
+In this option MCU will inititate GPRS connection for 30 seconds every N minutes (here in the code N =  120 minutes) using SIM800L module, then it will contact Thingspeak server and send HTTP POST towards Thingspeak servers to store your measurements from DHT22 sensor.  Depending on selected option - between consecutive DHT22 measurements the SIM800L - has radio switched off or not - and it is put into SLEEP MODE to conserve power. Sometimes where measurement are more frequent ( less than 5 hours)  switching off radio is bad choice because consecutive registrations to GSM network use a lot of energy... Then simple SLEEP MODE on SIM800L is better...
+
 How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
 To use these source file you have to create Thingspeak account and get API key first, then an update of source file is needed.
 API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN settings for GPRS access from your SIM card  ( it is marked in remarks in the code).
