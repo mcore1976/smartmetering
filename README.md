@@ -2,6 +2,7 @@
 Smart metering of temperature and humidity using GSM/GPRS network or SMS text messages.
 
 This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform via GPRS connection ( module SIM800L is used for communication ). 
+Connecting XTAL 8MHz as clock source is highly recommended in the design because it will ensure stability of serial communication between ATMEGA/ATTINY and SIM800L module. This makes especially the difference when environment temperature changes...
 
 -----------------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +14,7 @@ The video showig this mode is here : https://youtu.be/N060LW39fkQ
 When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 / ATMEGA 328P reads digital data from sensor DHT22 and sends response SMS to sender mobile.
 The ATTINY 2313 / ATMEGA 328P and SIM800L are both put into sleep mode when there is no incoming messages so the power consumption is below 4mA.
 ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup signal. Pin RI/RING goes low when there is incoming text message on the SIM. ATTINY/ATMEGA wakes up and wakes up SIM800L module. That allows to conserve energy and ensures longest lifetime.
+
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -73,7 +75,11 @@ a) ATMEGA328P option
  ATMEGA328 GND (PIN #8 and PIN #22) to SIM800L GND , DHT22 pin GND and 0V of power socket
  
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
-
+ 
+ ( optional ) XTAL 8MHz -  put between pins 9 & 10 of ATMEGA 328P
+ 
+ (optional for XTAL ) 22pF capacitors put between ATMEGA 328 P : pins 9 and GND , between pin 10 and GND 
+ 
 ----------
 
 
@@ -93,7 +99,10 @@ b) ATTINY2313 option
  
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
  
-
+( optional ) XTAL 8MHz -  put between pins 4 & 5 of ATTINY2313
+ 
+ (optional for XTAL ) 22pF capacitors put between ATTINY2313 : pins 4 and GND , between pin 5 and GND 
+ 
 ---------------------------------
 
 How to compile and upload code to the chip ATTINY 2313 ??
