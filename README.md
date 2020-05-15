@@ -74,6 +74,7 @@ a) ATMEGA328P option
  
  3xAA battery pack must be connected : "+" to VCC line, "-" to GND line
 
+----------
 
 
 b) ATTINY2313 option
