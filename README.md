@@ -12,9 +12,9 @@ NOTICE. Connecting XTAL 8MHz as clock source for ATMEGA/ATTINY is highly recomme
 The video showig this mode is here : https://youtu.be/N060LW39fkQ
 
 
-When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 / ATMEGA 328P reads digital data from sensor DHT22 and sends response SMS to sender mobile.
-The ATTINY 2313 / ATMEGA 328P and SIM800L are both put into sleep mode when there is no incoming messages so the power consumption is below 4mA.
-ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup signal. Pin RI/RING goes low when there is incoming text message on the SIM. ATTINY/ATMEGA wakes up and wakes up SIM800L module. That allows to conserve energy and ensures longest lifetime.
+When a text message is sent to SIM card used within SIM800L module, the MCU ATTINY 2313 / ATMEGA 328P reads digital data from sensor DHT22 and sends response text to sender mobile.
+The ATTINY 2313 / ATMEGA 328P and SIM800L are both put into sleep mode when there is no incoming messages so total power consumption is below 2mA.
+ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup signal. Pin RI/RING goes low when there is incoming text message on the SIM. This initiate interrupt procedure on INT0 pin of MCU. ATTINY/ATMEGA wakes up and wakes up SIM800L module. That allows to conserve energy and ensures longest lifetime.
 
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,9 @@ ATTINY/ATMEGA interrupt pin INT0 is connected to SIM800L pin RING/RI as a wakeup
 The video showing mode is working : https://www.youtube.com/watch?v=i4JgbwCktYQ
 
 The file "main3b.c"/"compileattinyb" ( or "main3b.c"/"compileattinyb" with no-radio-off option)  and "mainb.c"/"compileatmegab"  ( or "mainc.c"/"compileatmegac" with no-radio-off-option )  are Thingspeak version. 
-In this option MCU will inititate GPRS connection for 30 seconds every N minutes (here in the code N =  120 minutes) using SIM800L module, then it will contact Thingspeak server and send HTTP POST towards Thingspeak servers to store your measurements from DHT22 sensor.  Depending on selected option - between consecutive DHT22 measurements the SIM800L - has radio switched off or not - and it is put into SLEEP MODE to conserve power. Sometimes where measurement are more frequent ( less than 5 hours)  switching off radio is bad choice because consecutive registrations to GSM network use a lot of energy... Then simple SLEEP MODE on SIM800L is better...
+In this option MCU will inititate GPRS connection for ~30-45 seconds every N minutes (here in the code N =  120 minutes) using SIM800L module, then it will contact Thingspeak server and send HTTP POST with parameters towards Thingspeak servers to store  measurements from DHT22 sensor. Collected reports of Humidity and Temperature can be further displayed on Thingspeak channel.
+
+Depending on selected option - between consecutive DHT22 measurements the SIM800L - has radio switched off or not - and it is put into SLEEP MODE to conserve power. Sometimes where measurement are more frequent ( less than 5 hours)  switching off radio is bad choice because consecutive registrations to GSM network use a lot of energy... Then simple SLEEP MODE on SIM800L is better...
 
 How it works - details are here : https://www.teachmemicro.com/send-data-sim800-gprs-thingspeak/     and here   https://electronics-project-hub.com/send-data-to-thingspeak-arduino/
 To use these source file you have to create Thingspeak account and get API key first, then an update of source file is needed.
@@ -34,11 +36,11 @@ API Key must be inserted into "main3b.c"/"mainb.c" source file as well as APN se
 
 3. Other considerations : 
 
-SIM800L should be first configured to work on serial port with speed 9600bps. 
-The device can be powerd from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. Currently I am using 4xAA NiMH battery pack ( 1.2V x 4 cells ) with voltage drop down diode 1N4007 in serial (around ~0,6V voltage drop so result is 4.2V for powering SIM800L and MCU) and this gives very good results in powering this IoT device. 
-SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and good power source.
+SIM800L should be first configured to work on serial port with speed 9600bps. This can be done by connecting SIM800L via USB-to-Serial port adapter and sending apprpriate commands to the module (if it's not configured in factory).
+The device can be powered from 3xAA bateries or combination of LiIon 3.7V rechargable battery and 4V Solar Cell so it can be put outdoor. Currently I am using 4xAA NiMH battery pack ( 1.2V x 4 cells ) with voltage drop down diode 1N4007 in serial (around ~0,6V voltage drop so result is 4.2V for powering SIM800L and MCU) and this gives very good results in powering this IoT device. 
+SIM800L requires good power source since it can draw up to 2A of current during short peaks. Ensure that you have good cabling and sufficient power source (with 2A current rating).
 Please use XTAL 8MHz + 2 x 22pF capacitors to ensure stability of serial connection between MCU ans SIM800L. To reprogram chip to use quartz change L-FUSE value to "7F" in compileattinyX / compileatmegaX batch script in AVRDUDE command section. 
-Internal RC clock generator may be very unstable and prevent device from working.
+Internal RC clock generator may be very unstable and prevent device from working when temperature changes over time.
 
 
 
