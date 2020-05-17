@@ -500,7 +500,7 @@ int main(void) {
   delay_sec(2);
 
    // Turn off blinking LED on SIM800L module to conserve energy
-   // uart_puts_P(DISABLELED); 
+  uart_puts_P(DISABLELED); 
   delay_sec(1);
 
    // Save settings to SIM800L
