@@ -1,5 +1,5 @@
 # smartmetering
-Smart metering of temperature and humidity using GSM/GPRS network or SMS text messages.
+Smart metering of temperature and humidity with data reporting using GSM/GPRS network or SMS text messages.
 
 This is very simple example how to build IoT device that sends remote reading of temperature and humidity ( from DHT22 / DHT11 sensor) with text message  over GSM network or store data within THINGSPEAK channel platform via GPRS connection ( module SIM800L is used for communication ) or other platform capable to process HTTP POST messages.
 
